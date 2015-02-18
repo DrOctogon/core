@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
@@ -29,29 +30,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-use Sabre\DAV\URLUtil;
-use OC\Connector\Sabre\TagList;
 
-/**
- * ownCloud
- *
- * @author Jakob Sack
- * @copyright 2011 Jakob Sack kde@jakobsack.de
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
- */
+use OC\Connector\Sabre\Exception\InvalidPath;
+use Sabre\DAV\URLUtil;
+
 abstract class OC_Connector_Sabre_Node implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	const GETETAG_PROPERTYNAME = '{DAV:}getetag';
 	const LASTMODIFIED_PROPERTYNAME = '{DAV:}lastmodified';
@@ -315,7 +297,7 @@ abstract class OC_Connector_Sabre_Node implements \Sabre\DAV\INode, \Sabre\DAV\I
 			$fileName = basename($this->info->getPath());
 			$this->fileView->verifyPath($this->path, $fileName);
 		} catch (\OCP\Files\InvalidPathException $ex) {
-			throw new OC_Connector_Sabre_Exception_InvalidPath($ex->getMessage());
+			throw new InvalidPath($ex->getMessage());
 		}
 	}
 }
